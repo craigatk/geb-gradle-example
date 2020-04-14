@@ -1,8 +1,14 @@
 package example
 
 import geb.spock.GebReportingSpec
+import org.junit.Rule
+import org.junit.rules.TestName
 
 class GoogleSearchGebSpec extends GebReportingSpec {
+
+    @Rule
+    public TestName testName = new TestName();
+
     def 'should search for Geb in Google'() {
         given:
         go "http://www.google.com"
@@ -11,7 +17,7 @@ class GoogleSearchGebSpec extends GebReportingSpec {
 
         when:
         $("input", name: "q").value("Geb browser testing")
-        $("button", name: "btnG").click()
+        $("input", name: "btnK").lastElement().click()
 
         then:
         waitFor { $("#search").displayed }
@@ -19,7 +25,7 @@ class GoogleSearchGebSpec extends GebReportingSpec {
         assert $("#search").text().contains("gebish.org")
 
         when:
-        $("h3.r").find(text: 'Geb - Very Groovy Browser Automation').click()
+        $("h3", text: "Geb - Very Groovy Browser Automation").click()
 
         slowDownForPresentation()
 
